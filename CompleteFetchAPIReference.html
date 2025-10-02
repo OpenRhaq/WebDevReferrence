@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Fetch API Reference - Everything Listed</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            margin: 0 10px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .search-box {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        #searchInput {
+            width: 100%;
+            max-width: 600px;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            outline: none;
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .tab {
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .tab.active {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .card-badge {
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .content-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .item-list {
+            list-style: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .item-list li {
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            word-break: break-all;
+            transition: all 0.2s;
+        }
+
+        .item-list li:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .nested-section {
+            margin-left: 15px;
+            border-left: 3px solid #e2e8f0;
+            padding-left: 15px;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            line-height: 1.5;
+            margin: 15px 0;
+        }
+
+        .example-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .example-card {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .example-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Scrollbar styling */
+        .item-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .item-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .item-list::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 3px;
+        }
+
+        .item-list::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Complete Fetch API Reference</h1>
+            <p class="subtitle">Every property, method, header, and option - Fully documented</p>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalProperties">0</span>
+                    <span class="stat-label">Total Properties</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalHeaders">0</span>
+                    <span class="stat-label">Header Types</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalExamples">0</span>
+                    <span class="stat-label">Code Examples</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalItems">0</span>
+                    <span class="stat-label">Total Items</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Search through all Fetch API properties, headers, methods...">
+        </div>
+
+        <div class="category-tabs" id="categoryTabs">
+            <!-- Tabs will be generated dynamically -->
+        </div>
+
+        <div id="referenceContainer" class="content-grid">
+            <!-- Content will be dynamically generated here -->
+        </div>
+
+        <div class="footer">
+            <p>Complete Fetch API Reference • Everything Listed • Made with 💻</p>
+        </div>
+    </div>
+
+    <script>
+        // COMPLETE Fetch API Reference - EVERYTHING INCLUDED
+        const fetchRequestReference = {
+            // === CORE REQUEST PROPERTIES ===
+            url: [
+                "http://127.0.0.1:8000/api/trips/",
+                "https://api.example.com/data",
+                "https://yourdomain.com/endpoint",
+                "https://jsonplaceholder.typicode.com/posts",
+                "https://api.github.com/users",
+                "/api/local-endpoint",
+                "./data.json",
+                "relative/path/to/resource",
+                "https://subdomain.domain.com/api/v1/endpoint"
+            ],
+
+            method: [
+                "GET",      // Retrieve data
+                "POST",     // Create new resource
+                "PUT",      // Replace resource
+                "DELETE",   // Remove resource
+                "PATCH",    // Partial update
+                "HEAD",     // Headers only
+                "OPTIONS"   // CORS preflight
+            ],
+
+            // === COMPLETE HEADERS REFERENCE ===
+            headers: {
+                // Content Types
+                "Content-Type": [
+                    "application/json",
+                    "application/xml", 
+                    "text/plain",
+                    "text/html",
+                    "text/css",
+                    "text/csv",
+                    "application/javascript",
+                    "application/pdf",
+                    "application/zip",
+                    "application/x-www-form-urlencoded",
+                    "multipart/form-data",
+                    "application/octet-stream",
+                    "image/png",
+                    "image/jpeg", 
+                    "image/gif",
+                    "image/webp",
+                    "image/svg+xml",
+                    "audio/mpeg",
+                    "audio/wav",
+                    "audio/ogg",
+                    "video/mp4",
+                    "video/webm",
+                    "application/xhtml+xml",
+                    "application/ld+json"
+                ],
+
+                // Authorization
+                "Authorization": [
+                    "Bearer <token>",
+                    "Basic <base64_credentials>",
+                    "Token <token>",
+                    "Digest <digest>",
+                    "AWS4-HMAC-SHA256 <credentials>",
+                    "OAuth <oauth_token>"
+                ],
+
+                // Accept Headers
+                "Accept": [
+                    "application/json",
+                    "application/xml", 
+                    "text/plain",
+                    "text/html",
+                    "text/css",
+                    "text/csv",
+                    "application/javascript",
+                    "application/pdf",
+                    "application/zip",
+                    "multipart/form-data",
+                    "application/octet-stream",
+                    "image/png",
+                    "image/jpeg",
+                    "image/gif",
+                    "image/webp",
+                    "image/svg+xml",
+                    "audio/mpeg",
+                    "audio/wav", 
+                    "audio/ogg",
+                    "video/mp4",
+                    "video/webm",
+                    "*/*"
+                ],
+
+                // Security Headers
+                "X-CSRFToken": ["<csrf_token>"],
+                "X-API-Key": ["<api_key>"],
+                "X-Requested-With": ["XMLHttpRequest"],
+                "X-Frame-Options": ["DENY", "SAMEORIGIN", "ALLOW-FROM https://example.com"],
+                "X-Content-Type-Options": ["nosniff"],
+                "X-XSS-Protection": ["1; mode=block"],
+                "Strict-Transport-Security": ["max-age=31536000; includeSubDomains"],
+
+                // Caching Headers
+                "Cache-Control": [
+                    "no-cache",
+                    "no-store", 
+                    "max-age=<seconds>",
+                    "public",
+                    "private",
+                    "must-revalidate",
+                    "proxy-revalidate",
+                    "no-transform",
+                    "immutable",
+                    "stale-while-revalidate=<seconds>",
+                    "stale-if-error=<seconds>"
+                ],
+                "Expires": ["<http_date_timestamp>"],
+                "ETag": ["<etag_value>"],
+                "Last-Modified": ["<http_date_timestamp>"],
+                "If-Modified-Since": ["<http_date_timestamp>"],
+                "If-None-Match": ["<etag_value>"],
+                "If-Match": ["<etag_value>"],
+                "If-Unmodified-Since": ["<http_date_timestamp>"],
+
+                // CORS Headers
+                "Origin": ["https://yourdomain.com"],
+                "Access-Control-Request-Method": ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
+                "Access-Control-Request-Headers": ["Content-Type", "Authorization", "X-API-Key", "X-CSRFToken"],
+                "Access-Control-Allow-Origin": ["*", "https://trusted-domain.com"],
+                "Access-Control-Allow-Methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+                "Access-Control-Allow-Headers": ["Content-Type", "Authorization", "X-API-Key"],
+                "Access-Control-Allow-Credentials": ["true"],
+                "Access-Control-Expose-Headers": ["X-Custom-Header"],
+                "Access-Control-Max-Age": ["86400"],
+
+                // Rate Limiting
+                "X-RateLimit-Limit": ["1000"],
+                "X-RateLimit-Remaining": ["999"],
+                "X-RateLimit-Reset": ["<timestamp>"],
+                "X-RateLimit-Policy": ["1000;w=1;comment=\"per second\""],
+                "Retry-After": ["<delay-seconds>"],
+
+                // Content Negotiation
+                "Accept-Language": [
+                    "en-US", "en-GB", "es-ES", "fr-FR", "de-DE", 
+                    "zh-CN", "ja-JP", "ko-KR", "ru-RU", "ar-SA",
+                    "pt-BR", "it-IT", "nl-NL", "tr-TR", "pl-PL"
+                ],
+                "Accept-Encoding": ["gzip", "deflate", "br", "identity", "*"],
+                "Accept-Charset": ["utf-8", "iso-8859-1", "windows-1252"],
+                "Content-Encoding": ["gzip", "deflate", "br"],
+                "Content-Language": ["en", "es", "fr", "de", "zh"],
+                "Content-Length": ["<byte_count>"],
+                "Content-Location": ["<url>"],
+                "Content-Range": ["bytes 0-999/2000"],
+
+                // Conditional Requests
+                "If-Range": ["<etag_or_date>"],
+                "Unless-Modified-Since": ["<http_date_timestamp>"],
+
+                // Cookies
+                "Cookie": ["session_id=<session_id>; user_pref=<preferences>"],
+                "Set-Cookie": [
+                    "sessionId=abc123; Expires=Wed, 09 Jun 2021 10:18:14 GMT",
+                    "user=john; Max-Age=3600; Secure; HttpOnly"
+                ],
+
+                // Custom Headers
+                "X-Custom-Header": ["<custom_value>"],
+                "X-Forwarded-For": ["<client_ip>"],
+                "X-Forwarded-Proto": ["https", "http"],
+                "X-Forwarded-Host": ["<original_host>"],
+                "X-Real-IP": ["<client_ip>"],
+                "X-Powered-By": ["Express", "Django", "Laravel"],
+
+                // User Agent and Client Info
+                "User-Agent": [
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+                    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+                    "Custom-API-Client/1.0.0",
+                    "Mobile-App/2.1.3 (iOS 14.6)"
+                ],
+
+                // Other Standard Headers
+                "Host": ["api.example.com"],
+                "Referer": ["https://previous-page.com"],
+                "Referrer-Policy": [
+                    "no-referrer",
+                    "no-referrer-when-downgrade",
+                    "origin", 
+                    "origin-when-cross-origin",
+                    "same-origin",
+                    "strict-origin",
+                    "strict-origin-when-cross-origin",
+                    "unsafe-url"
+                ],
+                "DNT": ["1", "0"],
+                "Upgrade-Insecure-Requests": ["1"],
+                "TE": ["trailers", "deflate", "gzip"],
+                "Trailer": ["Expires"],
+                "Transfer-Encoding": ["chunked", "gzip", "deflate"],
+                "Via": ["1.1 google"],
+                "Warning": ["199 - \"Miscellaneous warning\""]
+            },
+
+            // === REQUEST BODY TYPES ===
+            body: [
+                "JSON.stringify({ key: 'value', data: { nested: 'object' } })", // JSON
+                "new FormData()", // Form data
+                "const formData = new FormData(); formData.append('file', fileInput); formData.append('name', 'value')", // FormData with files
+                "new URLSearchParams()", // URL encoded
+                "new URLSearchParams({ key: 'value', array: ['item1', 'item2'] })", // URL encoded with data
+                "new Blob()", // Binary large object
+                "new Blob([JSON.stringify({ data: 'value' })], { type: 'application/json' })", // Blob with JSON
+                "new ArrayBuffer()", // Raw binary
+                "new Uint8Array()", // Typed array
+                "new Int16Array()", 
+                "new Float32Array()",
+                "'plain text string'", // Plain text
+                "ReadableStream", // Stream
+                "fileInput.files[0]", // File object
+                "null", // No body
+                "undefined" // No body
+            ],
+
+            // === FETCH OPTIONS ===
+            signal: [
+                "new AbortController().signal",
+                "const controller = new AbortController(); setTimeout(() => controller.abort(), 5000); controller.signal"
+            ],
+
+            mode: [
+                "cors",        // Cross-Origin Resource Sharing
+                "no-cors",     // Limited CORS
+                "same-origin", // Same origin only
+                "navigate"     // Navigation requests
+            ],
+
+            credentials: [
+                "omit",        // No credentials
+                "same-origin", // Same-origin only
+                "include"      // Always include
+            ],
+
+            cache: [
+                "default",        // Browser default
+                "no-store",       // No caching
+                "reload",         // Force reload
+                "no-cache",       // Validate with server
+                "force-cache",    // Use cache even if stale
+                "only-if-cached"  // Cache only
+            ],
+
+            redirect: [
+                "follow",    // Follow redirects
+                "manual",    // Manual handling
+                "error"      // Error on redirect
+            ],
+
+            referrer: [
+                "client",           // Default referrer
+                "no-referrer",      // No referrer
+                "https://example.com/page"  // Specific URL
+            ],
+
+            referrerPolicy: [
+                "no-referrer",
+                "no-referrer-when-downgrade", 
+                "origin",
+                "origin-when-cross-origin",
+                "same-origin",
+                "strict-origin",
+                "strict-origin-when-cross-origin", 
+                "unsafe-url"
+            ],
+
+            integrity: [
+                "sha256-<base64-encoded-hash>",
+                "sha384-<base64-encoded-hash>",
+                "sha512-<base64-encoded-hash>",
+                "sha256-B2yPHKaXnvFWtRChIbabYmUBFZdVfKKXHbWtWidDVF8="
+            ],
+
+            keepalive: [
+                true,    // Keep alive
+                false    // Normal lifecycle
+            ],
+
+            window: [
+                null  // Must be null
+            ],
+
+            // === ADVANCED OPTIONS ===
+            priority: [
+                "high",   // High priority
+                "low",    // Low priority  
+                "auto"    // Auto (default)
+            ],
+
+            duplex: [
+                "half"   // For streaming
+            ],
+
+            // === RESPONSE HANDLING ===
+            responseType: [
+                "json",         // JSON
+                "text",         // Text
+                "blob",         // Blob
+                "arraybuffer",  // ArrayBuffer
+                "formData",     // FormData
+                "stream"        // ReadableStream
+            ],
+
+            // === HTTP STATUS CODES ===
+            statusCodes: {
+                informational: [
+                    "100 Continue",
+                    "101 Switching Protocols", 
+                    "102 Processing",
+                    "103 Early Hints"
+                ],
+                success: [
+                    "200 OK",
+                    "201 Created",
+                    "202 Accepted",
+                    "203 Non-Authoritative Information", 
+                    "204 No Content",
+                    "205 Reset Content",
+                    "206 Partial Content",
+                    "207 Multi-Status",
+                    "208 Already Reported",
+                    "226 IM Used"
+                ],
+                redirect: [
+                    "300 Multiple Choices",
+                    "301 Moved Permanently", 
+                    "302 Found",
+                    "303 See Other",
+                    "304 Not Modified",
+                    "305 Use Proxy",
+                    "306 Switch Proxy",
+                    "307 Temporary Redirect",
+                    "308 Permanent Redirect"
+                ],
+                clientError: [
+                    "400 Bad Request",
+                    "401 Unauthorized",
+                    "402 Payment Required",
+                    "403 Forbidden",
+                    "404 Not Found",
+                    "405 Method Not Allowed",
+                    "406 Not Acceptable",
+                    "407 Proxy Authentication Required",
+                    "408 Request Timeout",
+                    "409 Conflict",
+                    "410 Gone",
+                    "411 Length Required",
+                    "412 Precondition Failed",
+                    "413 Payload Too Large",
+                    "414 URI Too Long",
+                    "415 Unsupported Media Type",
+                    "416 Range Not Satisfiable",
+                    "417 Expectation Failed",
+                    "418 I'm a teapot",
+                    "421 Misdirected Request",
+                    "422 Unprocessable Entity",
+                    "423 Locked",
+                    "424 Failed Dependency",
+                    "425 Too Early",
+                    "426 Upgrade Required",
+                    "428 Precondition Required",
+                    "429 Too Many Requests",
+                    "431 Request Header Fields Too Large",
+                    "451 Unavailable For Legal Reasons"
+                ],
+                serverError: [
+                    "500 Internal Server Error",
+                    "501 Not Implemented",
+                    "502 Bad Gateway",
+                    "503 Service Unavailable",
+                    "504 Gateway Timeout",
+                    "505 HTTP Version Not Supported",
+                    "506 Variant Also Negotiates",
+                    "507 Insufficient Storage",
+                    "508 Loop Detected",
+                    "510 Not Extended",
+                    "511 Network Authentication Required"
+                ]
+            },
+
+            // === ERROR TYPES ===
+            errorTypes: [
+                "TypeError - Invalid URL or configuration",
+                "SyntaxError - Invalid JSON response", 
+                "AbortError - Request was aborted",
+                "NetworkError - Network failure",
+                "TimeoutError - Request timeout",
+                "SecurityError - CORS or security violation",
+                "DOMException - Various DOM exceptions"
+            ],
+
+            // === COMPLETE EXAMPLES ===
+            examples: {
+                "Basic GET Request": `// Simple GET request
+fetch('/api/users')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));`,
+
+                "POST with JSON": `// POST request with JSON data
+fetch('/api/users', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    name: 'John Doe',
+    email: 'john@example.com',
+    age: 30
+  })
+})
+.then(response => response.json())
+.then(data => console.log('Success:', data))
+.catch(error => console.error('Error:', error));`,
+
+                "With Authentication": `// Authenticated request
+const token = 'your_jwt_token_here';
+
+fetch('/api/protected', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer ' + token,
+    'Content-Type': 'application/json',
+    'X-API-Key': 'your_api_key'
+  },
+  credentials: 'include'
+})
+.then(response => response.json())
+.then(data => console.log(data));`,
+
+                "File Upload": `// File upload with FormData
+const formData = new FormData();
+formData.append('file', fileInput.files[0]);
+formData.append('description', 'File description');
+formData.append('category', 'documents');
+
+fetch('/api/upload', {
+  method: 'POST',
+  body: formData
+})
+.then(response => response.json())
+.then(data => console.log('Upload success:', data))
+.catch(error => console.error('Upload error:', error));`,
+
+                "With Timeout & Abort": `// Request with timeout
+const controller = new AbortController();
+const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+fetch('/api/slow-endpoint', {
+  signal: controller.signal,
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+.then(response => {
+  clearTimeout(timeoutId);
+  return response.json();
+})
+.then(data => console.log(data))
+.catch(error => {
+  if (error.name === 'AbortError') {
+    console.log('Request timed out');
+  } else {
+    console.error('Request failed:', error);
+  }
+});`,
+
+                "Error Handling": `// Comprehensive error handling
+async function fetchData(url) {
+  try {
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(\`HTTP error! status: \${response.status}\`);
+    }
+    
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      return await response.json();
+    } else {
+      return await response.text();
+    }
+  } catch (error) {
+    console.error('Fetch failed:', error);
+    throw error;
+  }
+}`,
+
+                "Multiple Requests": `// Multiple parallel requests
+Promise.all([
+  fetch('/api/users/1'),
+  fetch('/api/users/2'),
+  fetch('/api/users/3')
+])
+.then(responses => Promise.all(responses.map(r => r.json())))
+.then(users => {
+  console.log('All users:', users);
+})
+.catch(error => console.error('One request failed:', error));`,
+
+                "Stream Response": `// Handling stream response
+fetch('/api/large-data')
+  .then(response => {
+    const reader = response.body.getReader();
+    return new ReadableStream({
+      start(controller) {
+        function push() {
+          reader.read().then(({done, value}) => {
+            if (done) {
+              controller.close();
+              return;
+            }
+            controller.enqueue(value);
+            push();
+          });
+        }
+        push();
+      }
+    });
+  })
+  .then(stream => new Response(stream))
+  .then(response => response.text())
+  .then(text => console.log(text))
+  .catch(error => console.error('Stream error:', error));`
+            },
+
+            // === API PATTERNS ===
+            apiPatterns: {
+                "RESTful Endpoints": {
+                    "Get all": "GET /resources",
+                    "Get by ID": "GET /resources/:id",
+                    "Create": "POST /resources", 
+                    "Update": "PUT /resources/:id",
+                    "Partial Update": "PATCH /resources/:id",
+                    "Delete": "DELETE /resources/:id"
+                },
+                "Pagination": {
+                    "Offset-based": "GET /items?offset=0&limit=10",
+                    "Cursor-based": "GET /items?cursor=<cursor>&limit=10", 
+                    "Page-based": "GET /items?page=1&per_page=10"
+                },
+                "Filtering & Sorting": {
+                    "Filter": "GET /items?status=active&category=books",
+                    "Sort": "GET /items?sort=name&order=desc",
+                    "Search": "GET /items?q=keyword",
+                    "Range": "GET /items?price_min=10&price_max=100"
+                }
+            }
+        };
+
+        // Function to count total items
+        function countTotalItems(obj) {
+            let count = 0;
+            
+            function countItems(data) {
+                if (Array.isArray(data)) {
+                    count += data.length;
+                } else if (typeof data === 'object' && data !== null) {
+                    Object.values(data).forEach(value => countItems(value));
+                }
+            }
+            
+            countItems(obj);
+            return count;
+        }
+
+        // Function to display the reference data
+        function displayReferenceData() {
+            const container = document.getElementById('referenceContainer');
+            container.innerHTML = '';
+
+            let totalProperties = 0;
+            let totalHeaders = 0;
+            let totalExamples = 0;
+
+            // Create cards for each category
+            for (const [category, data] of Object.entries(fetchRequestReference)) {
+                totalProperties++;
+                
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.setAttribute('data-category', category);
+                
+                // Format category name for display
+                const formattedCategory = category.charAt(0).toUpperCase() + category.slice(1).replace(/([A-Z])/g, ' $1');
+                
+                let content = '';
+                let itemCount = 0;
+
+                if (Array.isArray(data)) {
+                    itemCount = data.length;
+                    content = `
+                        <div class="card-header">
+                            <h3 class="card-title">${formattedCategory}</h3>
+                            <span class="card-badge">${itemCount} items</span>
+                        </div>
+                        <div class="content-section">
+                            <ul class="item-list">
+                                ${data.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                } else if (typeof data === 'object') {
+                    if (category === 'headers') {
+                        totalHeaders = Object.keys(data).length;
+                        itemCount = totalHeaders;
+                        content = `
+                            <div class="card-header">
+                                <h3 class="card-title">${formattedCategory}</h3>
+                                <span class="card-badge">${itemCount} header types</span>
+                            </div>
+                        `;
+                        
+                        for (const [headerName, headerValues] of Object.entries(data)) {
+                            content += `
+                                <div class="content-section">
+                                    <h4 class="section-title">${headerName}</h4>
+                                    <ul class="item-list">
+                                        ${headerValues.map(value => `<li>${value}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            `;
+                        }
+                    } else if (category === 'examples') {
+                        totalExamples = Object.keys(data).length;
+                        itemCount = totalExamples;
+                        content = `
+                            <div class="card-header">
+                                <h3 class="card-title">${formattedCategory}</h3>
+                                <span class="card-badge">${itemCount} examples</span>
+                            </div>
+                            <div class="example-grid">
+                        `;
+                        
+                        for (const [exampleName, exampleCode] of Object.entries(data)) {
+                            content += `
+                                <div class="example-card">
+                                    <div class="example-title">${exampleName}</div>
+                                    <div class="code-block">${exampleCode}</div>
+                                </div>
+                            `;
+                        }
+                        content += `</div>`;
+                    } else {
+                        // Nested objects (like statusCodes, apiPatterns)
+                        content = `
+                            <div class="card-header">
+                                <h3 class="card-title">${formattedCategory}</h3>
+                                <span class="card-badge">${Object.keys(data).length} categories</span>
+                            </div>
+                        `;
+                        
+                        for (const [subCategory, subData] of Object.entries(data)) {
+                            content += `
+                                <div class="content-section">
+                                    <h4 class="section-title">${subCategory}</h4>
+                                    <div class="nested-section">
+                                        ${Array.isArray(subData) ? 
+                                            `<ul class="item-list">${subData.map(item => `<li>${item}</li>`).join('')}</ul>` :
+                                            `<pre>${JSON.stringify(subData, null, 2)}</pre>`
+                                        }
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    }
+                }
+                
+                card.innerHTML = content;
+                container.appendChild(card);
+            }
+
+            // Update statistics
+            document.getElementById('totalProperties').textContent = totalProperties;
+            document.getElementById('totalHeaders').textContent = totalHeaders;
+            document.getElementById('totalExamples').textContent = totalExamples;
+            document.getElementById('totalItems').textContent = countTotalItems(fetchRequestReference);
+
+            // Create category tabs
+            createCategoryTabs();
+        }
+
+        // Create category tabs
+        function createCategoryTabs() {
+            const tabsContainer = document.getElementById('categoryTabs');
+            const categories = Object.keys(fetchRequestReference);
+            
+            tabsContainer.innerHTML = '<div class="tab active" data-category="all">All Categories</div>';
+            
+            categories.forEach(category => {
+                const formattedCategory = category.charAt(0).toUpperCase() + category.slice(1).replace(/([A-Z])/g, ' $1');
+                const tab = document.createElement('div');
+                tab.className = 'tab';
+                tab.textContent = formattedCategory;
+                tab.setAttribute('data-category', category);
+                tabsContainer.appendChild(tab);
+            });
+
+            // Add tab click handlers
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Update active tab
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    filterByCategory(category);
+                });
+            });
+        }
+
+        // Filter by category
+        function filterByCategory(category) {
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Search functionality
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const cards = document.querySelectorAll('.card');
+                
+                cards.forEach(card => {
+                    const cardContent = card.textContent.toLowerCase();
+                    if (cardContent.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Update active tab to "All" when searching
+                document.querySelectorAll('.tab').forEach(tab => {
+                    if (tab.getAttribute('data-category') === 'all') {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+            });
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            displayReferenceData();
+            setupSearch();
+        });
+    </script>
+</body>
+</html>
